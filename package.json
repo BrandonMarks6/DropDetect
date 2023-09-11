@@ -1,0 +1,26 @@
+{
+  "name": "DropDetect",
+  "version": "0.2.0",
+  "description": "Use tfjs to predict dropshipping sites in a chrome extension (v3)",
+  "scripts": {
+    "copy": "mkdir -p dist/src && mkdir -p dist/models &&cp src/content.js dist/src/ && cp -r models/ dist/models",
+    "build": "parcel build src/service_worker.js --dist-dir dist/src/ && npm run copy",
+    "watch": "npm run copy && parcel watch src/service_worker.js --dist-dir dist/src/"
+  },  
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "clang-format": "^1.2.3",
+    "parcel": "^2.3.2",
+    "process": "^0.11.10"
+  },
+  "resolutions": {
+    "node-fetch": "2.6.7"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs": "^3.13.0"
+  },
+  "web_accessible_resources": [
+    "dist/model/model.json",
+    "dist/model/group1-shard1of1"
+  ]
+}
