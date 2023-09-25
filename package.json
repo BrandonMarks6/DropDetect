@@ -1,26 +1,45 @@
 {
-  "name": "DropDetect",
+  "name": "dropdetect",
   "version": "0.2.0",
   "description": "Use tfjs to predict dropshipping sites in a chrome extension (v3)",
   "scripts": {
-    "copy": "mkdir -p dist/src && mkdir -p dist/models &&cp src/content.js dist/src/ && cp -r models/ dist/models",
-    "build": "parcel build src/service_worker.js --dist-dir dist/src/ && npm run copy",
-    "watch": "npm run copy && parcel watch src/service_worker.js --dist-dir dist/src/"
-  },  
+    "copy": "mkdir -p dist/models && cp -r models/ dist/models && cp dist/compiledTS/content.js dist/src",
+    "build": "tsc && npm run bundleService && npm run copy && npm run moveBundles",
+    "bundleService": "parcel build dist/compiledTS/service_worker.js ",
+    "moveBundles": "mv dist/service_worker.js dist/src && mv dist/service_worker.js.map dist/src"
+  },
   "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "@types/node": "^16.7.13",
     "buffer": "^6.0.3",
+    "chrome-types": "^0.1.231",
     "clang-format": "^1.2.3",
     "parcel": "^2.3.2",
-    "process": "^0.11.10"
+    "parcel-bundler": "^1.12.5",
+    "process": "^0.11.10",
+    "typescript": "^4.5.4"
   },
   "resolutions": {
     "node-fetch": "2.6.7"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^3.13.0"
+    "@tensorflow/tfjs": "^3.13.0",
+    "core-js": "^3.32.2"
   },
   "web_accessible_resources": [
     "dist/model/model.json",
     "dist/model/group1-shard1of1"
-  ]
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrandonMarks6/DropDetect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrandonMarks6/DropDetect/issues"
+  },
+  "homepage": "https://github.com/BrandonMarks6/DropDetect#readme"
 }

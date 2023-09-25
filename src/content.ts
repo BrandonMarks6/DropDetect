@@ -2,7 +2,7 @@
  * Displays the prediction sent from service worker
  * @param {string} prediction  
  */
-function dislayPrediction(prediction) {
+function dislayPrediction(prediction: string) {
   alert("The prediction is " + prediction)
 }
 
@@ -10,12 +10,13 @@ function dislayPrediction(prediction) {
 // processing.  The message should contin an action and a prediction 
 //
 // message: {action, prediction}
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: any) => {
   if (!message) {
     console.log("No message found in content")
     return;
   }
   console.log("message reecieved")
+
 
   switch (message.action) {
     case 'OPTION_CLICKED':
@@ -37,8 +38,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
  * Calls a function to get data from current site. 
  * Sends that data in a response to the service worker
  */
-function scrapeInfoAndSend(src, sendResponse) {
-  rawData = extractData()
+function scrapeInfoAndSend(src: any, sendResponse: any) {
+  const rawData: Array<number> = extractData()
   sendResponse({
     rawInputData: rawData,
   })
@@ -59,14 +60,18 @@ function extractData() {
   //gets a count of emojis on the site
   while (walker.nextNode()) {
     const node = walker.currentNode;
-    const nodeText = node.textContent.trim();
-    const nodeWords = nodeText.split(/\s+/);
-    words.push(...nodeWords);
+    let nodeText = node.textContent
+    // Check if nodeText is not null or undefined
+    if (nodeText !== null) {
+      const trimmedText = nodeText.trim();
+      const nodeWords = trimmedText.split(/\s+/);
+      words.push(...nodeWords);
 
-    const emojiRegex = /[\u{1F000}-\u{1FFFF}]/gu;
-    const emojis = nodeText.match(emojiRegex);
-    if (emojis) {
-      emojiCount += emojis.length;
+      const emojiRegex = /[\u{1F000}-\u{1FFFF}]/gu;
+      const emojis = trimmedText.match(emojiRegex);
+      if (emojis) {
+        emojiCount += emojis.length;
+      }
     }
   }
 
